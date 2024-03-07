@@ -1,5 +1,3 @@
-'use client';
-
 import Image from 'next/image';
 import { lusitana } from '@/app/ui/fonts';
 import Search from '@/app/ui/search';
@@ -7,25 +5,12 @@ import {
   CustomersTableType,
   FormattedCustomersTable,
 } from '@/app/lib/definitions';
-import { useEffect, useState } from 'react';
-import { runWasmAdd } from '@/app/lib/wasm/fetchCustomersWasm';
 
-const CustomersTable =  () => {
-  const [customers, setCustomers] = useState<FormattedCustomersTable[]>([]);
-
-  useEffect(() => {
-      const fetchData = async () => {
-          try {
-              const wasmResult = await runWasmAdd();
-              setCustomers(wasmResult);
-          } catch (e) {
-              console.log('getWasm Error: ' + e);
-          }
-      };
-
-      fetchData();
-  }, []);
-
+export default async function CustomersTable({
+  customers,
+}: {
+  customers: FormattedCustomersTable[];
+}) {
   return (
     <div className="w-full">
       <h1 className={`${lusitana.className} mb-8 text-xl md:text-2xl`}>
@@ -136,5 +121,3 @@ const CustomersTable =  () => {
     </div>
   );
 }
-
-export default CustomersTable;
