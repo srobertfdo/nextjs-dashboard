@@ -8,6 +8,10 @@ export const authConfig = {
     authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user;
       const isOnDashboard = nextUrl.pathname.startsWith('/dashboard');
+      if (nextUrl.pathname.startsWith('/wasm-exec.js') || nextUrl.pathname.startsWith('/fetchCustomers.wasm') || nextUrl.pathname.startsWith('/customers.json')) {
+        return true; // Allow access to the WebAssembly file without authentication
+      }
+
       if (isOnDashboard) {
         if (isLoggedIn) return true;
         return false; // Redirect unauthenticated users to login page
